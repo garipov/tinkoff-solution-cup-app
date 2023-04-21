@@ -32,6 +32,7 @@
     "vite": "^4.3.0"
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "**/*": "prettier --write --ignore-unknown",
+    "**/*.{js,jsx,ts,tsx,json}": "eslint --max-warnings 0 --fix"
   }
 }
