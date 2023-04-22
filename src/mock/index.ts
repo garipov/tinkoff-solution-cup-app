@@ -19,7 +19,14 @@ export const mocks: Record<string, Mock> = {
       if (!transactionsStorage.get()) {
         transactionsStorage.set(generateTransactions());
       }
-      const items = transactionsStorage.get() || [];
+
+      let items = transactionsStorage.get() || [];
+
+      const categories = options.params?.category?.split(',');
+      if (categories?.length) {
+        items = items.filter((item) => categories.includes(item.category.title));
+      }
+
       const page = Number(options.params?.page) || 0;
       const pageSize = Number(options.params?.pageSize) || 10;
       const pageData = items.slice(page * pageSize, page * pageSize + pageSize);

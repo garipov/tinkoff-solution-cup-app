@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 import { Alert, Table, Tag } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
+import type { ColumnsType, TableProps } from 'antd/es/table';
 
 import { Transaction } from '../../models/Transaction';
 import { categories } from '../../const/categories';
@@ -8,6 +8,8 @@ import { Category } from '../../models/Category';
 import { useSWRApi } from '../../hooks/useSWRApi';
 import { currencyFormmater } from '../../utils/formatCurrency';
 import { PaginateResponse } from '../../models/PaginateResponse';
+import { stringifyParams } from '../../utils/stringifyParams';
+import { filterEmptyParams } from '../../utils/filterEmptyParams';
 
 const columns: ColumnsType<Transaction> = [
   {
@@ -41,6 +43,7 @@ const columns: ColumnsType<Transaction> = [
 
 export const Transactions: FC = () => {
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({});
 
   const {
     data: response,
@@ -51,6 +54,7 @@ export const Transactions: FC = () => {
     {
       params: {
         page: String(page),
+        ...stringifyParams(filters),
       },
     },
   ]);
@@ -58,6 +62,10 @@ export const Transactions: FC = () => {
   const errorElement = error && (
     <Alert message={error.message} type="error" showIcon closable style={{ marginBottom: 20 }} />
   );
+
+  const onChange: TableProps<Transaction>['onChange'] = (_, filters) => {
+    setFilters(filterEmptyParams(filters));
+  };
 
   return (
     <>
@@ -67,6 +75,7 @@ export const Transactions: FC = () => {
         dataSource={response?.data}
         rowKey="id"
         loading={isLoading}
+        onChange={onChange}
         pagination={{ total: response?.total, onChange: setPage }}
       />
     </>
