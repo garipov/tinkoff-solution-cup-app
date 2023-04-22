@@ -17,8 +17,8 @@ body {
   margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    @include theme-dark();
-  }
-}
+// @media (prefers-color-scheme: dark) {
+//  :root {
+//    @include theme-dark();
+//  }
+// }
