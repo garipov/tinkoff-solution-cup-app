@@ -42,6 +42,11 @@ export const mocks: Record<string, Mock> = {
       const id = String(maxId + 1);
       const body = options.body;
       if (!body) throw new Error(`"body" can't be empty for transactions`);
+      if (typeof body.category === 'string') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        body.category = { color: 'black', title: body.category };
+      }
       items.push({ id, ...body } as Transaction);
       transactionsStorage.set(items);
       return { id };
