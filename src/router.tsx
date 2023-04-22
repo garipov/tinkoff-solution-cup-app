@@ -1,18 +1,18 @@
 import { createHashRouter } from 'react-router-dom';
 
+import { Layout } from './compnents/Layout/Layout';
 import { Main } from './pages/MainPage/MainPage';
 import { ErrorPage } from './pages/ErrorPage/ErrorPage';
-import { SecondPage } from './pages/SecondPage/SecondPage';
 
 export const router = createHashRouter([
   {
     path: '/',
-    element: <Main />,
+    element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'second',
-        element: <SecondPage />,
+        path: '',
+        element: <Main />,
       },
     ],
   },
